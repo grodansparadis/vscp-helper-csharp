@@ -1,0 +1,106 @@
+﻿<Window x:Class="VscpWorksSharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VscpWorksSharp"
+        xmlns:converters="clr-namespace:VscpWorksSharp.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400.424" Width="618.432"
+        DataContext="ViewModel:VscpViewModel">
+    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Close"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Settings" Command="{Binding SettingsCommand}"/>
+            </MenuItem>
+        </Menu>    
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <TabItem Header="Connection">
+                <Grid  ShowGridLines="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0"  Content="Server" Margin="10"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ConnectionString}" Margin="10, 14" IsEnabled="{Binding ConnectionState, Converter={converters:ConnectionStateConverter}}"/>
+                    <Label Grid.Row="1" Grid.Column="0"  Content="Username" Margin="10"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Username}" Margin="10, 14" IsEnabled="{Binding ConnectionState, Converter={converters:ConnectionStateConverter}}"/>
+                    <Label Grid.Row="2" Grid.Column="0"  Content="Password" Margin="10"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Password}" Margin="10, 14" IsEnabled="{Binding ConnectionState, Converter={converters:ConnectionStateConverter}}"/>
+                    <Button Grid.Row="3" Grid.Column="0" Height="20" Width="75" Content="{Binding ConnectionState, Converter={converters:ConnectionStateConverter}}" Command="{Binding ConnectionCommand}"/>
+                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding ConnectionState, Converter={converters:EnumConverter}}" Height="100" Width="100"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Receiced tab -->
+            <TabItem Header="Received">
+                <Grid Background="#FFE5E5E5" ShowGridLines="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox Name="VscpEventsListBox" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding ReceivedEvents}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=ReceivedAt}"  ContentStringFormat="yyyy-MM-dd HH:mm:ss" />
+                                    <Label Content="{Binding}" />
+                                 </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="VSCP Class"/>
+                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Class, ElementName=VscpEventsListBox}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="VSCP Type"/>
+                        <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedItem.Type, ElementName=VscpEventsListBox}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- Logging tab -->
+            <TabItem Header="Log">
+                <Grid Background="#FFE5E5E5" ShowGridLines="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Button Margin="7" Content="Clear" Command="{Binding ClearLogCommand}"/>
+                    </StackPanel>
+                    <TextBox IsReadOnly="True" Grid.Row="1" Text="{Binding LogMessages, Mode=OneWay}" TextWrapping="Wrap" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+    </DockPanel>
+</Window>
