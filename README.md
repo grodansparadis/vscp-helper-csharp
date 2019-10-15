@@ -1,7 +1,7 @@
 # vscp-helper-csharp
 A contributed C# wrapper for the VSCP helper library
 
-This unfinished (???) code is developed by Bas Bongenaar <bas(at)bhnet.nl> who lacks the time to finish it. So any taker is welcome.
+This unfinished (state???) code is developed by Bas Bongenaar <bas(at)bhnet.nl> who lacks the time to finish it. So any taker is welcome.
 
 Bas writes
 
@@ -19,3 +19,4 @@ Best regards,
 Bas
 ```
 
+The design goal has been to make the VSCP helper lib functionality easy to use for C# developers.
